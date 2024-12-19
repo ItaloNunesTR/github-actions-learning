@@ -25,36 +25,11 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '20'
+          
       - name: Install dependencies
         run: npm install
-      - name: Set environment variables
-        run: |
-          echo "VEM_DO_GITHUB_ENVIROMENT_VARIABLES=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
-        env:
-          VEM_DO_GITHUB_SECRETS: ${{ secrets.VEM_DO_GITHUB_SECRETS }}
-      - name: Run script based on input
-        run: |
-          echo "Environment: ${{ github.event.inputs.environment }}"
-          echo "Operating System: ${{ github.event.inputs.os }}"
-      - name: Execute script
-        run: |
-          if [[ "${{ github.event.inputs.environment }}" == "dev" && "${{ github.event.inputs.os }}" == "android" ]]; then
-            npm run android-dev
-          elif [[ "${{ github.event.inputs.environment }}" == "qa" && "${{ github.event.inputs.os }}" == "android" ]]; then
-            npm run android-qa
-          elif [[ "${{ github.event.inputs.environment }}" == "prod" && "${{ github.event.inputs.os }}" == "android" ]]; then
-            npm run android-prod
-          elif [[ "${{ github.event.inputs.environment }}" == "dev" && "${{ github.event.inputs.os }}" == "ios" ]]; then
-            npm run ios-dev
-          elif [[ "${{ github.event.inputs.environment }}" == "qa" && "${{ github.event.inputs.os }}" == "ios" ]]; then
-            npm run ios-qa
-          elif [[ "${{ github.event.inputs.environment }}" == "prod" && "${{ github.event.inputs.os }}" == "ios" ]]; then
-            npm run ios-prod
-          fi
-        env:
-          VEM_DO_GITHUB_SECRETS: ${{ secrets.VEM_DO_GITHUB_SECRETS }}
-          VEM_DO_GITHUB_ENVIROMENT_VARIABLES: ${{ env.VEM_DO_GITHUB_ENVIROMENT_VARIABLES }}
