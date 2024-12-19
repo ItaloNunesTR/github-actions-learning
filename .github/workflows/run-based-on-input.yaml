@@ -23,6 +23,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
       - name: Check out repository
         uses: actions/checkout@v2
 
@@ -33,3 +34,6 @@ jobs:
           
       - name: Install dependencies
         run: npm install
+
+      - name: print github secrets
+        run: echo ${{ secrets.VEM_DO_GITHUB_SECRETS }}
