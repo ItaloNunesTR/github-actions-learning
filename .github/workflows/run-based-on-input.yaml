@@ -29,6 +29,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20'
+      - name: Install dependencies
+        run: npm install
       - name: Set environment variables
         run: |
           echo "VEM_DO_GITHUB_ENVIROMENT_VARIABLES=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
