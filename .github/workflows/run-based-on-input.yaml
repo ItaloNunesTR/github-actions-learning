@@ -1,39 +1,29 @@
-name: Run based on input
+name: Deploy
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Select the environment'
-        required: true
-        type: choice
-        options:
-          - dev
-          - qa
-          - prod
-      os:
-        description: 'Select the operating system'
-        required: true
-        type: choice
-        options:
-          - android
-          - ios
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [DEV, QA, PROD]
+
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Check out repository
-        uses: actions/checkout@v2
+    - name: Deploy to ${{ matrix.environment }}
+      env:
+        ENVIRONMENT: ${{ matrix.environment }}
+      run: |
+        echo "Deploying to $ENVIRONMENT"
+        # Comandos de deploy aqui
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-          
-      - name: Install dependencies
-        run: npm install
-
-      - name: print github secrets
-        run: echo ${{ secrets.VEM_DO_GITHUB_SECRETS }}
+    environment:
+      name: ${{ matrix.environment }}
+      url: https://example.com  # ajuste conforme necessário
