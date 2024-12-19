@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "android-dev": "npx ts-node ./src/index.ts",
+    "android-qa": "npx ts-node ./src/index.ts",
+    "android-prod": "npx ts-node ./src/index.ts",
+    "ios-dev": "npx ts-node ./src/index.ts",
+    "ios-qa": "npx ts-node ./src/index.ts",
+    "ios-prod": "npx ts-node ./src/index.ts"
   },
   "keywords": [],
   "author": "",
