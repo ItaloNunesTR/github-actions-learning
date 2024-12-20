@@ -1,5 +1,6 @@
 name: Broserstack automation test
-run-name: Executed by ${{ github.actor }} 🚀
+run-name: Executed by ${{ github.actor }} on ${{github.env.inputs.os}} operating system by ${{ github.event.inputs.environment }} environment
+
 on:
     workflow_dispatch:
       inputs:
@@ -18,26 +19,44 @@ on:
             - DEV
             - QA
             - PROD
+
 jobs:
   Browser-Stack-Execution:
-    environment: DEV
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: Setup NodeJS 🚦
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-      - name: Project Setup
-        run: npm install
-      - name: Print a enviroment variable value from github  
-        run: echo "🔧 The value of the environment variable is ${{ vars.VEM_DO_GITHUB_ENVIROMENT_VARIABLES }}."
-      - name: Status Job
-        run: echo "🍏 This job's status is ${{ job.status }}."    
 
+    - run : echo "Execution on ${{ github.event.inputs.environment }} environment 🖥️"
+    - name: Checkout repository code
+      uses: actions/checkout@v2
+
+    - run: echo "Current branch is ${{ github.ref }}"
+    - run: echo "Installing dependencies"
+    - name: Install dependencies
+      run: npm install
+      
+    - run: "Choosing the right npm command to execute"
+    - name: Get the npm command by operating system and environment
+      run: |
+        if ["${{github.event.inputs.os}}" == "Android"] && ["${{github.event.inputs.environment}}" == "DEV"]; then
+            echo "NPM_COMMAND=android-dev" >> $GITHUB_ENV
+        elif ["${{github.event.inputs.os}}" == "Android"] && ["${{github.event.inputs.environment}}" == "QA"]; then
+            echo "NPM_COMMAND=android-qa" >> $GITHUB_ENV
+        elif ["${{github.event.inputs.os}}" == "Android"] && ["${{github.event.inputs.environment}}" == "PROD"]; then
+            echo "NPM_COMMAND=android-prod" >> $GITHUB_ENV
+        elif ["${{github.event.inputs.os}}" == "iOS"] && ["${{github.event.inputs.environment}}" == "DEV"]; then
+            echo "NPM_COMMAND=ios-dev" >> $GITHUB_ENV
+        elif ["${{github.event.inputs.os}}" == "iOS"] && ["${{github.event.inputs.environment}}" == "QA"]; then
+            echo "NPM_COMMAND=ios-qa" >> $GITHUB_ENV
+        elif ["${{github.event.inputs.os}}" == "iOS"] && ["${{github.event.inputs.environment}}" == "PROD"]; then
+            echo "NPM_COMMAND=ios-prod" >> $GITHUB_ENV
+        fi
+        echo "NPM_COMMAND=${{ env.NPM_COMMAND }}"
+
+    - run: echo "Executing the npm command"
+    - name: Execute the npm command
+      if: env.NPM_COMMAND
+      env:
+        ENVIRONMENT: ${{ vars.ENVIRONMENT}}
+        REPOSITORY_SECRET: ${{secrets.ENVIRONMENT_SECRET}}
+      run: npm run ${{ env.NPM_COMMAND }}
