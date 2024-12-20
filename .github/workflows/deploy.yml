@@ -35,20 +35,20 @@ jobs:
     - name: Install dependencies
       run: npm install
       
-    - run: "Choosing the right npm command to execute"
+    - run: echo "Choosing the right npm command to execute"
     - name: Get the npm command by operating system and environment
       run: |
-        if ["${{github.event.inputs.os}}" == "Android"] && ["${{github.event.inputs.environment}}" == "DEV"]; then
+        if [ "${{ github.event.inputs.os }}" == "Android" ] && [ "${{ github.event.inputs.environment }}" == "DEV" ]; then
             echo "NPM_COMMAND=android-dev" >> $GITHUB_ENV
-        elif ["${{github.event.inputs.os}}" == "Android"] && ["${{github.event.inputs.environment}}" == "QA"]; then
+        elif [ "${{ github.event.inputs.os }}" == "Android" ] && [ "${{ github.event.inputs.environment }}" == "QA" ]; then
             echo "NPM_COMMAND=android-qa" >> $GITHUB_ENV
-        elif ["${{github.event.inputs.os}}" == "Android"] && ["${{github.event.inputs.environment}}" == "PROD"]; then
+        elif [ "${{ github.event.inputs.os }}" == "Android" ] && [ "${{ github.event.inputs.environment }}" == "PROD" ]; then
             echo "NPM_COMMAND=android-prod" >> $GITHUB_ENV
-        elif ["${{github.event.inputs.os}}" == "iOS"] && ["${{github.event.inputs.environment}}" == "DEV"]; then
+        elif [ "${{ github.event.inputs.os }}" == "iOS" ] && [ "${{ github.event.inputs.environment }}" == "DEV" ]; then
             echo "NPM_COMMAND=ios-dev" >> $GITHUB_ENV
-        elif ["${{github.event.inputs.os}}" == "iOS"] && ["${{github.event.inputs.environment}}" == "QA"]; then
+        elif [ "${{ github.event.inputs.os }}" == "iOS" ] && [ "${{ github.event.inputs.environment }}" == "QA" ]; then
             echo "NPM_COMMAND=ios-qa" >> $GITHUB_ENV
-        elif ["${{github.event.inputs.os}}" == "iOS"] && ["${{github.event.inputs.environment}}" == "PROD"]; then
+        elif [ "${{ github.event.inputs.os }}" == "iOS" ] && [ "${{ github.event.inputs.environment }}" == "PROD" ]; then
             echo "NPM_COMMAND=ios-prod" >> $GITHUB_ENV
         fi
         echo "NPM_COMMAND=${{ env.NPM_COMMAND }}"
