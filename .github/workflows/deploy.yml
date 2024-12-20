@@ -1,5 +1,5 @@
 name: Broserstack automation test
-run-name: Executed by:🤓 ${{ github.actor }} | Operational System:📱${{github.event.inputs.os}} | Environment 🚧 ${{ github.event.inputs.environment }}
+run-name: Executed by:${{ github.actor }} | Operational System:${{github.event.inputs.os}} | Environment:${{ github.event.inputs.environment }}
 
 on:
     workflow_dispatch:
@@ -26,7 +26,7 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     steps:
 
-    - run : echo "Execution on ${{ github.event.inputs.environment }} environment 🖥️"
+    - run : echo "Execution on ${{ github.event.inputs.environment }} environment"
     - name: Checkout repository code
       uses: actions/checkout@v2
 
@@ -60,3 +60,4 @@ jobs:
         ENVIRONMENT: ${{ vars.ENVIRONMENT}}
         REPOSITORY_SECRET: ${{secrets.ENVIRONMENT_SECRET}}
       run: npm run ${{ env.NPM_COMMAND }}
+    - run: echo "This job's status is ${{ job.status }}."  
