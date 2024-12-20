@@ -37,7 +37,7 @@ jobs:
       - name: Project Setup
         run: npm install
       - name: Print a enviroment variable value from github  
-        run: echo "The value of the variable is: ${{variables.VEM_DO_GITHUB_ENVIROMENT_VARIABLES}}"
+        run: echo "🔧 The value of the environment variable is ${{ vars.VEM_DO_GITHUB_ENVIROMENT_VARIABLES }}."
       - name: Status Job
         run: echo "🍏 This job's status is ${{ job.status }}."    
 
