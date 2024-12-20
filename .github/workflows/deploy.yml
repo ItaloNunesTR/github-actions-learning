@@ -1,5 +1,5 @@
 name: Broserstack automation test
-run-name: Executed by ${{ github.actor }} on ${{github.env.inputs.os}} operating system by ${{ github.event.inputs.environment }} environment
+run-name: Executed by:🤓 ${{ github.actor }} | Operational System:📱${{github.event.inputs.os}} | Environment 🚧 ${{ github.event.inputs.environment }}
 
 on:
     workflow_dispatch:
